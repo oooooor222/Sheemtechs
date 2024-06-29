@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>HOME</title>
+    <link href="/Home/Home.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <center>
+      <h1>START PREDICTING NOW!</h1><br>
+      <a style="color: red;display: flex;">Note:</a><p style="display: flex;">This Predictor is not surely win but you have 85% rate to win and 15% rate to loss.</p><br>
+      <hr>
+      <style>
+        body {
+          font-family: sans-serif;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 100vh;
+          background-color: #f0f0f0;
+        }
+        .container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          background-color: ;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .button {
+          padding: 10px 20px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 16px;
+          margin-bottom: 20px;
+        }
+        .button:hover {
+          background-color: #45a049;
+        }
+        .coins-selector {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-bottom: 20px;
+          display: none; /* Initially hide the coin selector */
+        }
+        .coin-option {
+          padding: 8px 16px;
+          margin: 5px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          cursor: pointer;
+          background-color: #f0f0f0;
+        }
+        .coin-option.selected {
+          background-color: #4CAF50;
+          color: white;
+        }
+        .popup {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          display: none;
+          z-index: 10;
+        }
+        .popup-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 10px;
+        }
+        .close-button {
+          cursor: pointer;
+        }
+        .popup-content {
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          grid-template-rows: repeat(5, 1fr);
+          gap: 5px;
+          width: 300px;
+          height: 300px;
+          border: 2px solid #ccc;
+          border-radius: 8px;
+        }
+        .box {
+          width: 50px;
+          height: 50px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 24px;
+          cursor: pointer;
+          background-color: #f0f0f0;
+        }
+        .box:hover {
+          background-color: #e0e0e0;
+        }
+        .timer {
+          position: absolute;
+          top: 10px;
+          left: 50%;
+          transform: translateX(-50%);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background-color: #f0f0f0;
+          border: 2px solid #ccc;
+        }
+        .timer-value {
+          font-size: 20px;
+          font-weight: bold;
+        }
+        .close-circle {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background-color: #f0f0f0;
+          border: 2px solid #ccc;
+          cursor: pointer;
+        }
+        .close-circle:hover {
+          background-color: #e0e0e0;
+        }
+      </style>
+      </head>
+      <body>
+      <div class="container">
+        <h1>Minesweeper Predictor</h1>
+        <button class="button" id="start-button">START PREDICTING</button>
+        <button class="button" id="choose-coins-button">CHOOSE COIN AMOUNT</button>
+        <div class="coins-selector" id="coins-selector">
+          <h2>Choose Coins Amount:</h2>
+          <div class="coin-option" data-coins="2">2 🪙</div>
+          <div class="coin-option" data-coins="3">3 🪙</div>
+          <div class="coin-option" data-coins="4">4 🪙</div>
+          <div class="coin-option" data-coins="5">5 🪙</div>
+          <div class="coin-option" data-coins="6">6 🪙</div>
+          <div class="coin-option" data-coins="7">7 🪙</div>
+          <div class="coin-option" data-coins="8">8 🪙</div>
+          <div class="coin-option" data-coins="9">9 🪙</div>
+          <div class="coin-option" data-coins="10">10 🪙</div>
+          <div class="coin-option" data-coins="11">11 🪙</div>
+          <div class="coin-option" data-coins="12">12 🪙</div>
+          <div class="coin-option" data-coins="13">13 🪙</div>
+          <div class="coin-option" data-coins="14">14 🪙</div>
+          <div class="coin-option" data-coins="15">15 🪙</div>
+        </div>
+      </div>
+      <div class="popup" id="popup">
+        <div class="popup-header">
+          <h2 id="popup-title"></h2>
+          <div class="close-circle" onclick="closePopup()">x</div>
+        </div>
+        <div class="popup-content" id="popup-content">
+          <div class="timer" id="timer">
+            <span class="timer-value" id="timer-value">20</span>
+          </div>
+        </div>
+      </div>
+      <script>
+        let startButton = document.getElementById('start-button');
+        let chooseCoinsButton = document.getElementById('choose-coins-button');
+        let popup = document.getElementById('popup');
+        let popupContent = document.getElementById('popup-content');
+        let popupTitle = document.getElementById('popup-title');
+        let timerValue = document.getElementById('timer-value');
+        let coinsSelector = document.getElementById('coins-selector');
+        let coinsSelected = null;
+        let timerInterval;
+        // Function to shuffle array (Fisher-Yates Shuffle)
+        function shuffleArray(array) {
+          for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+          }
+          return array;
+        }
+        // Event listener for coin options
+        coinsSelector.addEventListener('click', (event) => {
+          if (event.target.classList.contains('coin-option')) {
+            // Remove selected class from previous option
+            const selectedOption = coinsSelector.querySelector('.coin-option.selected');
+            if (selectedOption) {
+              selectedOption.classList.remove('selected');
+            }
+            // Add selected class to clicked option
+            event.target.classList.add('selected');
+            coinsSelected = parseInt(event.target.dataset.coins);
+            console.log("Coins selected:", coinsSelected);
+          }
+        });
+        // Function to start/re-predict the game
+        startButton.addEventListener('click', () => {
+          if (startButton.innerText === 'START PREDICTING') {
+            if (!coinsSelected) {
+              alert('Please select the number of coins first!');
+              return;
+            }
+            // Start game
+            startButton.innerText = 'RE-PREDICT';
+            popupTitle.innerText = 'PREDICT THE BOMBS!';
+            popup.style.display = 'block';
+            generateGameBoard();
+            startTimer();
+          } else {
+            // Re-predict
+            shuffleItems();
+          }
+        });
+        // Function to show coin selector
+        chooseCoinsButton.addEventListener('click', () => {
+          coinsSelector.style.display = 'flex';
+          chooseCoinsButton.style.display = 'none'; // Hide the button after showing the selector
+        });
+        // Function to generate the game board
+        function generateGameBoard() {
+          popupContent.innerHTML = ''; // Clear existing board
+          let items = [];
+          for (let i = 0; i < coinsSelected; i++) {
+            items.push('🪙');
+          }
+          for (let i = 0; i < 25 - coinsSelected; i++) {
+            items.push('💣');
+          }
+          shuffleArray(items); // Shuffle the items before placing them
+          for (let i = 0; i < 25; i++) {
+            let box = document.createElement('div');
+            box.classList.add('box');
+            box.dataset.index = i;
+            box.innerText = items[i]; // Place the shuffled item
+            popupContent.appendChild(box);
+          }
+        }
+        // Function to shuffle items on the game board
+        function shuffleItems() {
+          let boxes = popupContent.querySelectorAll('.box');
+          let items = Array.from(boxes).map(box => box.innerText);
+          shuffleArray(items);
+          boxes.forEach((box, index) => {
+            box.innerText = items[index];
+          });
+        }
+        // Function to start the timer
+        function startTimer() {
+          timerValue.innerText = 20;
+          timerInterval = setInterval(() => {
+            let time = parseInt(timerValue.innerText);
+            time--;
+            timerValue.innerText = time;
+            if (time === 0) {
+              clearInterval(timerInterval);
+              closePopup();
+            }
+          }, 1000);
+        }
+        // Function to close the popup
+        function closePopup() {
+          popup.style.display = 'none';
+          clearInterval(timerInterval);
+          startButton.innerText = 'START PREDICTING';
+          coinsSelected = null;
+          // Reset the coin selection
+          const selectedOption = coinsSelector.querySelector('.coin-option.selected');
+          if (selectedOption) {
+            selectedOption.classList.remove('selected');
+          }
+          // Show the coin selector button and hide the selector
+          chooseCoinsButton.style.display = 'block';
+          coinsSelector.style.display = 'none'; 
+        }
+      </script>
+
+      
+    </center>
+    <script src="/Home/Home.js"></script>
+  </body>
+</html>

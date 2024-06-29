@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>HOME</title>
+    <link href="/Home/Home.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <center>
+      <h1>START PREDICTING NOW!</h1><br>
+      <a style="color: red;display: flex;">Note:</a><p style="display: flex;">This Predictor is not surely win but you have 85% rate to win and 15% rate to loss.</p><br>
+      <hr>
+      <style>
+        body {
+          font-family: sans-serif;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 100vh;
+          background-color: #f0f0f0;
+        }
+        .container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .button {
+          padding: 10px 20px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 16px;
+          margin-bottom: 20px;
+        }
+        .button:hover {
+          background-color: #45a049;
+        }
+        .popup {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          display: none;
+          z-index: 10;
+        }
+        .popup-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 10px;
+        }
+        .close-button {
+          cursor: pointer;
+        }
+        .popup-content {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 150px; /* Adjust height as needed */
+        }
+        .result {
+          padding: 20px;
+          border-radius: 8px;
+          font-size: 24px;
+          text-align: center;
+          width: 150px; /* Adjust width as needed */
+        }
+        .meron {
+          background-color: red;
+          color: white;
+        }
+        .wala {
+          background-color: blue;
+          color: white;
+        }
+        .timer {
+          position: absolute;
+          top: 10px;
+          left: 50%;
+          transform: translateX(-50%);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background-color: #f0f0f0;
+          border: 2px solid #ccc;
+        }
+        .timer-value {
+          font-size: 20px;
+          font-weight: bold;
+        }
+        .close-circle {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background-color: #f0f0f0;
+          border: 2px solid #ccc;
+          cursor: pointer;
+        }
+        .close-circle:hover {
+          background-color: #e0e0e0;
+        }
+      </style>
+      </head>
+      <body>
+      <div class="container">
+        <h1>Sabong Predictor</h1>
+        <button class="button" id="start-button">START PREDICTING</button>
+      </div>
+      <div class="popup" id="popup">
+        <div class="popup-header">
+          <h2>Sabong Prediction</h2>
+          <div class="close-circle" onclick="closePopup()">x</div>
+        </div>
+        <div class="popup-content" id="popup-content">
+          <div class="timer" id="timer">
+            <span class="timer-value" id="timer-value">20</span>
+          </div>
+        </div>
+      </div>
+      <script>
+        let startButton = document.getElementById('start-button');
+        let popup = document.getElementById('popup');
+        let popupContent = document.getElementById('popup-content');
+        let timerValue = document.getElementById('timer-value');
+        let timerInterval;
+        // Function to generate random result (Meron or Wala)
+        function generateResult() {
+          const results = ['meron', 'wala'];
+          const randomIndex = Math.floor(Math.random() * results.length);
+          return results[randomIndex];
+        }
+        // Function to display the result
+        function displayResult(result) {
+          popupContent.innerHTML = ''; // Clear previous content
+          const resultElement = document.createElement('div');
+          resultElement.classList.add('result', result);
+          resultElement.textContent = result.toUpperCase();
+          popupContent.appendChild(resultElement);
+        }
+        // Function to start the timer
+        function startTimer() {
+          timerValue.innerText = 20;
+          timerInterval = setInterval(() => {
+            let time = parseInt(timerValue.innerText);
+            time--;
+            timerValue.innerText = time;
+            if (time === 0) {
+              clearInterval(timerInterval);
+              closePopup();
+            }
+          }, 1000);
+        }
+        // Function to close the popup
+        function closePopup() {
+          popup.style.display = 'none';
+          clearInterval(timerInterval);
+        }
+        // Event listener for the start button
+        startButton.addEventListener('click', () => {
+          popup.style.display = 'block';
+          const result = generateResult();
+          displayResult(result);
+          startTimer();
+        });
+      </script>
+
+    </center>
+    <script src="/Home/Home.js"></script>
+  </body>
+</html>
